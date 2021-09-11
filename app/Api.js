@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import axiosRateLimit from "axios-rate-limit";
-import Moviespaths from "./config/Moviespaths";
 const url = axiosRateLimit(
   axios.create({
     baseURL: "https://api.themoviedb.org/3",
@@ -11,7 +10,7 @@ const url = axiosRateLimit(
 );
 const getmovies = async (uri) => {
   try {
-    
+
     const res = await url.get(uri);
     return res.data;
   } catch (error) {

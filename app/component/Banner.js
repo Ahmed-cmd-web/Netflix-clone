@@ -7,12 +7,9 @@ import content from "../config/content";
 import Subheader from "./Subheader";
 import colors from "../config/colors";
 import moviegenres from "../config/moviegenres";
-import { useSelector } from "react-redux";
-import { info } from "../redux/reducer";
 
 const Banner = ({ src, genre }) => {
   const [genres, setgenres] = useState([]);
-  const data = useSelector(info);
   const findgenre = (array) => {
     let l = [];
     array?.map((i) => {
@@ -30,10 +27,8 @@ const Banner = ({ src, genre }) => {
     <View style={styles.con}>
       <Image
         style={styles.img}
-        source={{ uri: `http://image.tmdb.org/t/p/w780${src}` }}
-        preview={{
-          uri: "https://silicophilic.com/wp-content/uploads/2019/11/Netflix_Thumbnails_not_loading.jpg",
-        }}
+        source={{ uri: `http://image.tmdb.org/t/p/original${src}` }}
+        defaultSource={require("../assets/splash.png")}
         tint="dark"
       />
       <View

@@ -2,37 +2,24 @@
 
 import AppLoading from "expo-app-loading";
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Api from "./app/Api";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Body from "./app/component/Body";
-import Header from "./app/component/Header";
 import Nanimation from "./app/component/Nanimation";
 import Moviespaths from "./app/config/Moviespaths";
-import { addmovies, info, setmovie } from "./app/redux/reducer";
+import { addmovies } from "./app/redux/reducer";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Hometab from "./app/Navigation/Hometab";
 import Comingsoon from "./app/Navigation/Comingsoon";
-import Coming from "./app/component/Coming";
 import Navtheme from "./app/Navigation/Navtheme";
 import colors from "./app/config/colors";
-import Search from "./app/component/Search";
 import Searchtab from "./app/Navigation/Searchtab";
 import Downloadstab from "./app/Navigation/Downloadstab";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
+import { useNetInfo } from "@react-native-community/netinfo";
 import Offline from "./app/component/Offline";
 
 const Index = () => {
@@ -74,9 +61,7 @@ const Index = () => {
           handle();
           return console.log("an error ocurred>>>", error);
         }}
-        onFinish={() => {
-          setready(true);
-        }}
+        onFinish={() => setready(true)}
       />
     );
   if (ready && !done)
@@ -88,6 +73,7 @@ const Index = () => {
           tabBarOptions={{
             style: {
               backgroundColor: colors.backgroundprimarycolor,
+              borderTopWidth:0
             },
             activeTintColor: colors.textcolor,
             inactiveTintColor: "gray",
@@ -144,5 +130,3 @@ const Index = () => {
 };
 
 export default Index;
-
-const styles = StyleSheet.create({});

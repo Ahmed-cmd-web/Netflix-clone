@@ -2,15 +2,14 @@
 
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../config/colors";
 import content from "../config/content";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import Constants from "expo-constants";
 
 const Downloads = () => {
   return (
-    <SafeAreaView style={styles.con}>
+    <View style={styles.con}>
       <View style={styles.title}>
         <Text
           style={{
@@ -57,14 +56,14 @@ const Downloads = () => {
           {content.nothingdownloadedsubtitle}
         </Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default Downloads;
 
 const styles = StyleSheet.create({
-  con: { flex: 1 },
+  con: { flex: 1, marginTop: Constants.statusBarHeight },
   title: {
     flexDirection: "row",
     justifyContent: "space-between",

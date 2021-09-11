@@ -2,9 +2,7 @@
 
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../config/colors";
-import Constants from "expo-constants";
 import content from "../config/content";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Player from "./Player";
@@ -14,7 +12,7 @@ import { info } from "../redux/reducer";
 const Coming = () => {
   const data = useSelector(info);
   return (
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View style={styles.title}>
         <Text
           style={{
@@ -48,7 +46,7 @@ const styles = StyleSheet.create({
   con: {
     flex: 1,
     width: "100%",
-    paddingTop: Constants.statusBarHeight,
+    marginTop: 100,
   },
   title: {
     flexDirection: "row",

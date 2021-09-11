@@ -1,10 +1,8 @@
 /** @format */
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import movieTrailer from "movie-trailer";
-import { Video } from "expo-av";
-import { WebView } from "react-native-webview";
 import YoutubePlayer from "react-native-youtube-iframe";
 import colors from "../config/colors";
 import content from "../config/content";
@@ -14,36 +12,55 @@ import LottieView from "lottie-react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import moviegenres from "../config/moviegenres";
+import * as Notifications from "expo-notifications";
 
 const Player = ({ srcid, name, desc, rawgenres }) => {
   const [src, setsrc] = useState("");
   const [genres, setgenres] = useState([]);
-
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
+  const handle = async (e) => {
+    const { granted } = await Notifications.requestPermissionsAsync();
+    if (!granted) return;
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Reminder Set",
+        body: `${e} has been added to your list.`,
+        sound: true,
+      },
+      trigger: {
+        seconds: 1,
+      },
+    });
+  };
 
   useEffect(() => {
     movieTrailer(null, { tmdbId: srcid, multi: false, id: true })
-      .then((r) => 
-        setsrc(r)
-      )
+      .then((r) => setsrc(r))
       .catch((e) => console.log(e));
-   const findgenre = (array) => {
-     let l = [];
-     array?.map((i) => {
-       var index = moviegenres.genres.findIndex((v) => v.id == i);
-       l.push(moviegenres.genres[index].name);
-       return;
-     });
-     return setgenres(l);
-   };
-      findgenre(rawgenres);
+    const findgenre = (array) => {
+      let l = [];
+      array?.map((i) => {
+        var index = moviegenres.genres.findIndex((v) => v.id == i);
+        l.push(moviegenres.genres[index].name);
+        return;
+      });
+      return setgenres(l);
+    };
+    findgenre(rawgenres);
   }, []);
 
   const [ready, setready] = useState(false);
   return (
     <View style={styles.con}>
       <YoutubePlayer
-        height={200}
         width={"100%"}
+        height={200}
         play={true}
         videoId={src}
         mute={true}
@@ -55,7 +72,7 @@ const Player = ({ srcid, name, desc, rawgenres }) => {
         startInLoadingState={true}
         renderLoading={() => (
           <Image
-            uri={src}
+            uri={"../assets/splash.png"}
             preview={{
               uri: "https://silicophilic.com/wp-content/uploads/2019/11/Netflix_Thumbnails_not_loading.jpg",
             }}
@@ -99,6 +116,7 @@ const Player = ({ srcid, name, desc, rawgenres }) => {
                   style={{
                     height: 40,
                   }}
+                  onAnimationFinish={() => handle(name)}
                 />
               )}
               <Text style={{ color: !ready ? colors.textcolor : colors.red }}>

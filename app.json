@@ -20,7 +20,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#000"
       }
     },
     "web": {
@@ -30,5 +30,12 @@
   "androidStatusBar": {
     "backgroundColor": "#ffffff",
     "barStyle": "dark-content"
+  },
+  "notification": {
+    "icon": "./app/assets/icon.png",
+    "color": "#311b92",
+    "androidMode": "default",
+    "androidCollapsedTitle": "Updates from Colab.notes",
+    "iosDisplayInForeground": true
   }
 }

@@ -1,100 +1,62 @@
 /** @format */
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   FlatList,
-  LayoutAnimation,
-  NativeModules,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import colors from "../config/colors";
 import { info } from "../redux/reducer";
 import Poster from "./Poster";
-import { SearchBar } from "react-native-elements";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
 import content from "../config/content";
+import { SearchBar } from "react-native-elements";
+import Constants from "expo-constants";
 
-const { UIManager } = NativeModules;
-UIManager.setLayoutAnimationEnabledExperimental &&
-  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const Search = () => {
-  const [width, setwidth] = useState(0);
-  const [alignment, setalignment] = useState("center");
   const data = useSelector(info);
   const [datapassed, setdatapassed] = useState(data.all[0]);
   const [search, setsearch] = useState("");
-  const _onPress = () => {
-    // Animate the update
-    LayoutAnimation.easeInEaseOut();
-    setwidth(undefined);
-    setalignment("left");
-  };
-  const cancel = () => {
-    LayoutAnimation.spring();
-    setwidth(0);
-    inputRef.current.blur();
-    setalignment("center");
-    inputRef.current.clear();
-  };
   const handle = (e) => {
-    setdatapassed(data.all[0].filter((i) => i.name.startsWith(e)));
+    setdatapassed(
+      data.all[0].filter((i) => i.name.toLowerCase().startsWith(e))
+    );
   };
-  const inputRef = useRef(null);
 
   return (
-    <SafeAreaView style={styles.con}>
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginBottom: 15 }}
-      >
-        <View
-          style={{
-            flex: 1,
-            height: Platform.OS === "android" ? 40 : 30,
-            alignItems: "center",
-          }}
-        >
-          <TextInput
-            ref={inputRef}
-            autoFocus={true}
-            autoCapitalize="words"
-            placeholder="🔍 Search"
-            placeholderTextColor="#909090"
-            style={[styles.textinput, { textAlign: alignment, width: "98%" }]}
-            clearButtonMode="always"
-            onFocus={_onPress}
-            onBlur={() => setdatapassed(data.all[0])}
-            onChangeText={(e) => {
-              setdatapassed(data.all[0]);
-              if (e === "") return;
-              return handle(e);
-            }}
-          />
-        </View>
-        <View style={{ width: width }}>
-          <Text
-            onPress={cancel}
-            style={{
-              color: colors.textcolor,
-              marginHorizontal: 10,
-            }}
-          >
-            Cancel
-          </Text>
-        </View>
-      </View>
+    <View style={styles.con}>
+      <SearchBar
+        platform="ios"
+        containerStyle={{
+          backgroundColor: colors.backgroundColor,
+          height: 30,
+          marginVertical: 10,
+        }}
+        clearButtonMode="always"
+        autoFocus={true}
+        inputStyle={{color:colors.textcolor}}
+        searchIcon={{ color: "gainsboro" }}
+        inputContainerStyle={{ backgroundColor: colors.dark }}
+        cancelButtonProps={{ color: colors.textcolor }}
+        placeholderTextColor={"gainsboro"}
+        placeholder="Search"
+        onBlur={() => setdatapassed(data.all[0])}
+        value={search}
+        onChangeText={(e) => {
+          setsearch(e);
+          setdatapassed(data.all[0]);
+          if (e === "") return;
+          return handle(e.toLowerCase());
+        }}
+      />
 
       {datapassed.length > 0 ? (
         <FlatList
-          removeClippedSubviews={false} // Unmount components when outside of window
+          removeClippedSubviews={false} 
           contentContainerStyle={{ paddingHorizontal: 5 }}
           data={datapassed}
           keyExtractor={(i) => i.id}
@@ -138,7 +100,7 @@ const Search = () => {
           </Text>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -147,15 +109,11 @@ export default Search;
 const styles = StyleSheet.create({
   con: {
     flex: 1,
+    marginTop:Constants.statusBarHeight
+
   },
   textinput: {
-    flexDirection: "row",
     height: Platform.OS === "android" ? 50 : 30,
-    flex: 1,
-    textAlign: "center",
     backgroundColor: "#484848",
-    borderRadius: 5,
-    padding: 10,
-    color: colors.textcolor,
   },
 });

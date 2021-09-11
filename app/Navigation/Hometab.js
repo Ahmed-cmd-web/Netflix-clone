@@ -1,18 +1,16 @@
-import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import Body from '../component/Body';
-import Header from '../component/Header';
+/** @format */
+import React from "react";
+import {  StyleSheet,  View } from "react-native";
+import Body from "../component/Body";
 
 const Hometab = () => {
-    return (
-      <ScrollView style={{ flex: 1 }}>
-        <Header />
+  return (
+      <View style={{ flex: 1 }}>
         <Body />
-      </ScrollView>
-    );
-}
+      </View>
+  );
+};
 
-export default Hometab
+export default Hometab;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

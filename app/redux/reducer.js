@@ -19,6 +19,7 @@ const movies = createSlice({
       state.current = [action.payload];
       return state;
     },
+
   },
 });
 

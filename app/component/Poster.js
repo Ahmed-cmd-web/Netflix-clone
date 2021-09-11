@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image } from "react-native";
 
 const Poster = ({ uri, size = 100, ...p }) => {
   return (
@@ -14,14 +14,10 @@ const Poster = ({ uri, size = 100, ...p }) => {
         borderRadius: 5,
         ...p,
       }}
-      source={{ uri: `http://image.tmdb.org/t/p/original${uri}` }}
+      source={{ uri: `http://image.tmdb.org/t/p/w500${uri}` }}
       defaultSource={require("../assets/splash.png")}
     />
   );
 };
 
 export default Poster;
-
-const styles = StyleSheet.create({
-  con: {},
-});

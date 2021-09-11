@@ -1,22 +1,35 @@
 /** @format */
 
-import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { FlatList } from "react-native";
+import {  StyleSheet, View } from "react-native";
 import Moviespaths from "../config/Moviespaths";
 import Rowtitles from "../config/Rowtitles";
-import { info } from "../redux/reducer";
 import Row from "./Row";
+import Header from "../component/Header";
 
 const Body = () => {
-  const data = useSelector(info);
+  const [size, setSize] = useState(1);
   return (
     <View style={styles.con}>
-      {Object.keys(Moviespaths.Movies).map((i,index) => {
-        return (
-          <Row key={i} title={Rowtitles[i]} category={i} uris={data.all[index]} />
-        );
-      })}
+      {
+        <FlatList
+          onEndReached={() => setSize(size === 8 ? size : size + 1)}
+          onEndReachedThreshold={0.1}
+          data={Object.keys(Moviespaths.Movies).splice(0, size)}
+          ListHeaderComponent={<Header />}
+          keyExtractor={(item) => item}
+          renderItem={({ item, index }) => {
+            return (
+            <Row
+              key={index}
+              title={Rowtitles[item]}
+              category={item}
+              index={index}
+            />
+          )}}
+        />
+      }
     </View>
   );
 };
@@ -29,6 +42,5 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     width: "100%",
-    marginBottom: 50,
   },
 });

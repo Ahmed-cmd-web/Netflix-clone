@@ -2,7 +2,7 @@
 
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {  StyleSheet,  View } from "react-native";
 import { Provider } from "react-redux";
 import colors from "./app/config/colors";
 import Index from "./Index";

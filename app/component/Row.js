@@ -1,28 +1,37 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
-import Api from "../Api";
+import React, { useState } from "react";
+import { FlatList } from "react-native";
+import {  StyleSheet, Text, View } from "react-native";
+import {  useSelector } from "react-redux";
 import colors from "../config/colors";
 import content from "../config/content";
-import { addmovies } from "../redux/reducer";
+import {  info } from "../redux/reducer";
 import Poster from "./Poster";
 
-const Row = ({ title, uris }) => {
+const Row = ({ title, index }) => {
+  const data = useSelector(info);
+  const [size, setSize] = useState(5);
+
   return (
     <View>
       <Text style={styles.text}>{title}</Text>
-      <ScrollView
-        contentContainerStyle={{
-          marginVertical: 5,
-        }}
-        horizontal={true}
-      >
-        {uris?.map((i) => (
-          <Poster uri={i.poster_path} key={i.poster_path} />
-        ))}
-      </ScrollView>
+
+      {
+        <FlatList
+          contentContainerStyle={{
+            marginVertical: 5,
+          }}
+          onEndReached={() => setSize(size + 7)}
+          onEndReachedThreshold={0.1}
+          horizontal={true}
+          data={[...data.all[index]].splice(0, size)}
+          keyExtractor={(item) => item.poster_path}
+          renderItem={({ item }) => (
+            <Poster uri={item.poster_path} key={item.poster_path} />
+          )}
+        />
+      }
     </View>
   );
 };

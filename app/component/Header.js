@@ -1,7 +1,7 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import {  StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import content from "../config/content";
@@ -10,7 +10,6 @@ import { Octicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { info } from "../redux/reducer";
 import Banner from "./Banner";
-import moviegenres from "../config/moviegenres";
 import { LinearGradient } from "expo-linear-gradient";
 
 const Header = () => {
@@ -32,9 +31,9 @@ const Header = () => {
   };
   const data = useSelector(info);
   const poster = Math.floor(Math.random() * data.all[0].length);
-  
-   
-  
+
+
+
   return (
     <View style={styles.con}>
       <LinearGradient
